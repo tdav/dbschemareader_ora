@@ -133,6 +133,16 @@ namespace DatabaseSchemaReader.DataSchema
         public List<UserDataType> UserDataTypes = new List<UserDataType>();
 
         /// <summary>
+        /// Gets or sets the unified entities list for dependency analysis
+        /// </summary>
+        public List<DatabaseEntity> Entities { get; set; }
+
+        /// <summary>
+        /// Gets or sets the dependency graph
+        /// </summary>
+        public DependencyGraph DependencyGraph { get; set; }
+
+        /// <summary>
         /// Gets or sets the provider.
         /// </summary>
         /// <value>
@@ -174,6 +184,22 @@ namespace DatabaseSchemaReader.DataSchema
         {
             return Tables.Find(t => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase) &&
                 string.Equals(t.SchemaOwner, schema, StringComparison.OrdinalIgnoreCase));
+        }
+
+        /// <summary>
+        /// Finds an entity by name and optionally type
+        /// </summary>
+        /// <param name="name">The entity name.</param>
+        /// <param name="type">The entity type (optional).</param>
+        /// <returns>The matching entity or null</returns>
+        public DatabaseEntity FindEntityByName(string name, DatabaseEntityType? type = null)
+        {
+            if (Entities == null)
+                return null;
+
+            return Entities.Find(e => 
+                string.Equals(e.Name, name, StringComparison.OrdinalIgnoreCase) &&
+                (!type.HasValue || e.EntityType == type.Value));
         }
 
         /// <summary>

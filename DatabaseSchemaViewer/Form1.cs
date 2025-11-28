@@ -258,6 +258,7 @@ namespace DatabaseSchemaViewer
                     SchemaToTreeview.PopulateTreeView(_databaseSchema, treeView1);
                     toolStripButton1.Enabled = true;
                     toolStripButton2.Enabled = true;
+                    toolStripButtonDependencies.Enabled = true;
                     saveSchema.Enabled = true;
                 }
             }
@@ -281,6 +282,16 @@ namespace DatabaseSchemaViewer
             using (var f = new CompareForm(_databaseSchema))
             {
                 f.TableStartsWith = txtTableStartsWith.Text.Trim();
+                f.ShowDialog();
+            }
+        }
+
+        private void DependencyAnalysisClick(object sender, EventArgs e)
+        {
+            if (_databaseSchema == null) return;
+
+            using (var f = new DependencyViewerForm(_databaseSchema))
+            {
                 f.ShowDialog();
             }
         }
@@ -559,6 +570,7 @@ namespace DatabaseSchemaViewer
                         SchemaToTreeview.PopulateTreeView(_databaseSchema, treeView1);
                         toolStripButton1.Enabled = true;
                         toolStripButton2.Enabled = true;
+                        toolStripButtonDependencies.Enabled = true;
                         saveSchema.Enabled = true;
                     }
                 }

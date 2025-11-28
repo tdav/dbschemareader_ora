@@ -177,6 +177,16 @@ namespace DatabaseSchemaReader.ProviderSchemaReaders.Adapters
             return new Schemas(CommandTimeout).Execute(ConnectionAdapter);
         }
 
+        public virtual IList<EntityDependency> Dependencies()
+        {
+            return new Dependencies(CommandTimeout, Owner).Execute(ConnectionAdapter);
+        }
+
+        public virtual IList<DatabaseEntity> ObjectStatus()
+        {
+            return new ObjectStatus(CommandTimeout, Owner).Execute(ConnectionAdapter);
+        }
+
         public override void PostProcessing(DatabaseTable databaseTable)
         {
             if (databaseTable == null) return;

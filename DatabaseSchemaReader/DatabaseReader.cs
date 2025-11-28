@@ -1,5 +1,8 @@
 ﻿using DatabaseSchemaReader.DataSchema;
 using DatabaseSchemaReader.Filters;
+#if !NETSTANDARD1_5
+using DatabaseSchemaReader.Procedures;
+#endif
 using DatabaseSchemaReader.ProviderSchemaReaders;
 using DatabaseSchemaReader.ProviderSchemaReaders.Adapters;
 using DatabaseSchemaReader.ProviderSchemaReaders.Builders;
@@ -511,6 +514,65 @@ namespace DatabaseSchemaReader
             DatabaseSchemaFixer.UpdateDataTypes(DatabaseSchema); //if columns/arguments loaded later, run this method again.
             return list;
         }
+
+        /// <summary>
+        /// Reads Oracle dependencies from ALL_DEPENDENCIES
+        /// </summary>
+        /// <returns>List of entity dependencies</returns>
+        public IList<EntityDependency> ReadDependencies()
+        {
+            var dependencies = new List<EntityDependency>();
+            
+#if !COREFX
+            var oracleAdapter = _readerAdapter as ProviderSchemaReaders.Adapters.OracleAdapter;
+            if (oracleAdapter != null)
+            {
+                using (_readerAdapter.CreateConnection())
+                {
+                    var result = oracleAdapter.Dependencies();
+                    dependencies.AddRange(result);
+                }
+            }
+#endif
+            return dependencies;
+        }
+
+        /// <summary>
+        /// Reads Oracle object status from ALL_OBJECTS
+        /// </summary>
+        /// <returns>List of database entities with status</returns>
+        public IList<DatabaseEntity> ReadObjectStatus()
+        {
+            var entities = new List<DatabaseEntity>();
+
+#if !COREFX
+            var oracleAdapter = _readerAdapter as ProviderSchemaReaders.Adapters.OracleAdapter;
+            if (oracleAdapter != null)
+            {
+                using (_readerAdapter.CreateConnection())
+                {
+                    var result = oracleAdapter.ObjectStatus();
+                    entities.AddRange(result);
+                }
+            }
+#endif
+            return entities;
+        }
+
+#if !NETSTANDARD1_5
+        /// <summary>
+        /// Builds a dependency graph from the current schema
+        /// </summary>
+        /// <returns>The dependency graph</returns>
+        public DependencyGraph BuildDependencyGraph()
+        {
+            var builder = new DependencyGraphBuilder();
+            var graph = builder.BuildFromSchema(DatabaseSchema);
+            DatabaseSchema.DependencyGraph = graph;
+            DatabaseSchema.Entities = graph.Nodes;
+            return graph;
+        }
+#endif
 
         private void UpdateReferences()
         {
