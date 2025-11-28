@@ -119,6 +119,7 @@
             this.toolStripSeparator1,
             this.toolStripButton1,
             this.toolStripButton2,
+            this.toolStripButtonRelationships,
             this.tsbQuote});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -176,6 +177,17 @@
             this.toolStripButton2.Text = "Compare";
             this.toolStripButton2.ToolTipText = "Compare to another database";
             this.toolStripButton2.Click += new System.EventHandler(this.CompareClick);
+            // 
+            // toolStripButtonRelationships
+            // 
+            this.toolStripButtonRelationships = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonRelationships.Enabled = false;
+            this.toolStripButtonRelationships.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonRelationships.Name = "toolStripButtonRelationships";
+            this.toolStripButtonRelationships.Size = new System.Drawing.Size(82, 22);
+            this.toolStripButtonRelationships.Text = "Relationships";
+            this.toolStripButtonRelationships.ToolTipText = "Analyze table relationships";
+            this.toolStripButtonRelationships.Click += new System.EventHandler(this.RelationshipsClick);
             // 
             // tsbQuote
             // 
@@ -374,6 +386,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolStripButtonRelationships;
         private System.Windows.Forms.ContextMenuStrip connectionContext;
         private System.Windows.Forms.ContextMenuStrip treeContext;
         private System.Windows.Forms.ToolStripButton openSchema;

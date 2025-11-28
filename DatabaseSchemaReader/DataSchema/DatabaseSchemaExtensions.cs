@@ -1,4 +1,7 @@
-﻿using DatabaseSchemaReader.ProviderSchemaReaders;
+﻿#if !NETSTANDARD1_5
+using DatabaseSchemaReader.Procedures;
+#endif
+using DatabaseSchemaReader.ProviderSchemaReaders;
 using DatabaseSchemaReader.ProviderSchemaReaders.Adapters;
 using System;
 using System.Collections.Generic;
@@ -246,5 +249,30 @@ namespace DatabaseSchemaReader.DataSchema
 
             return databaseSchema;
         }
+
+#if !NETSTANDARD1_5
+        /// <summary>
+        /// Получить анализатор связей таблиц
+        /// </summary>
+        /// <param name="databaseSchema">The database schema.</param>
+        /// <returns>Анализатор связей таблиц</returns>
+        public static TableRelationshipAnalyzer GetTableRelationshipAnalyzer(this DatabaseSchema databaseSchema)
+        {
+            if (databaseSchema == null) throw new ArgumentNullException("databaseSchema", "databaseSchema must not be null");
+            return new TableRelationshipAnalyzer(databaseSchema);
+        }
+
+        /// <summary>
+        /// Получить статистику связей таблиц
+        /// </summary>
+        /// <param name="databaseSchema">The database schema.</param>
+        /// <returns>Статистика связей таблиц</returns>
+        public static TableRelationshipStatistics GetRelationshipStatistics(this DatabaseSchema databaseSchema)
+        {
+            if (databaseSchema == null) throw new ArgumentNullException("databaseSchema", "databaseSchema must not be null");
+            var analyzer = new TableRelationshipAnalyzer(databaseSchema);
+            return analyzer.GetRelationshipStatistics();
+        }
+#endif
     }
 }

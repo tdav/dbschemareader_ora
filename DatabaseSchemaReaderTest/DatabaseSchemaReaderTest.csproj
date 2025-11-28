@@ -395,6 +395,7 @@
     <Compile Include="IntegrationTests\SqlLite.cs" />
     <Compile Include="IntegrationTests\SqlServerNorthwind.cs" />
     <Compile Include="Procedures\RunnerTests.cs" />
+    <Compile Include="Procedures\TableRelationshipAnalyzerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IntegrationTests\SqlServerIssueOfNullFKReferenceTests.cs" />
     <Compile Include="ProviderSchemaReaders\SqlAzureOrSqlServerSchemaReaderTests.cs" />
