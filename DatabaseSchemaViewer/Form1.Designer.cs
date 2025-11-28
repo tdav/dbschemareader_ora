@@ -1,4 +1,6 @@
-﻿namespace DatabaseSchemaViewer
+﻿using System;
+
+namespace DatabaseSchemaViewer
 {
     partial class Form1
     {
@@ -365,6 +367,11 @@
 
         }
 
+        private void RelationshipsClick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         private System.Windows.Forms.StatusStrip statusStrip1;
@@ -392,6 +399,9 @@
         private System.Windows.Forms.ToolStripButton tsbQuote;
         private System.Windows.Forms.TextBox txtTableStartsWith;
         private System.Windows.Forms.Label label4;
+
+         private System.Windows.Forms.ToolStripButton toolStripButtonDependencies;
+         private System.Windows.Forms.ToolStripButton toolStripButtonRelationships ;
     }
 }
 
