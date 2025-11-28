@@ -132,6 +132,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="TableRelationshipForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TableRelationshipForm.Designer.cs">
+      <DependentUpon>TableRelationshipForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CodeGenForm.resx">
@@ -156,6 +162,9 @@
     </Compile>
     <EmbeddedResource Include="ScriptForm.resx">
       <DependentUpon>ScriptForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TableRelationshipForm.resx">
+      <DependentUpon>TableRelationshipForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>

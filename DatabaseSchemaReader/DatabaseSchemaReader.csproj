@@ -91,7 +91,11 @@
     <DefineConstants>TRACE;DEBUG;NET4</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' Or '$(TargetFramework)' == 'netstandard2.0' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
+    <DefineConstants>TRACE;DEBUG;COREFX;NETSTANDARD2_0;NETSTANDARD1_5;</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <DefineConstants>TRACE;DEBUG;COREFX;NETSTANDARD2_0;</DefineConstants>
   </PropertyGroup>
 
