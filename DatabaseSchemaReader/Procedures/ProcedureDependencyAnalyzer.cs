@@ -159,52 +159,55 @@ namespace DatabaseSchemaReader.Procedures
             }
         }
 
+        private static readonly HashSet<string> SqlKeywords = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "SELECT", "INSERT", "UPDATE", "DELETE", "FROM", "WHERE", "AND", "OR",
+            "INTO", "VALUES", "SET", "JOIN", "LEFT", "RIGHT", "INNER", "OUTER",
+            "ON", "AS", "IN", "NOT", "NULL", "IS", "LIKE", "BETWEEN", "EXISTS",
+            "HAVING", "GROUP", "BY", "ORDER", "ASC", "DESC", "LIMIT", "OFFSET",
+            "UNION", "ALL", "DISTINCT", "TOP", "CASE", "WHEN", "THEN", "ELSE",
+            "END", "IF", "BEGIN", "DECLARE", "CURSOR", "OPEN", "CLOSE", "FETCH",
+            "DUAL", "TABLE", "VIEW", "INDEX", "CREATE", "DROP", "ALTER", "TRUNCATE"
+        };
+
+        private static readonly HashSet<string> BuiltInFunctions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "NVL", "NVL2", "DECODE", "COALESCE", "NULLIF", "CASE",
+            "TO_CHAR", "TO_DATE", "TO_NUMBER", "TO_TIMESTAMP",
+            "UPPER", "LOWER", "INITCAP", "TRIM", "LTRIM", "RTRIM",
+            "SUBSTR", "INSTR", "LENGTH", "REPLACE", "TRANSLATE",
+            "ROUND", "TRUNC", "ABS", "CEIL", "FLOOR", "MOD", "POWER",
+            "SQRT", "SIGN", "SIN", "COS", "TAN", "LOG", "EXP",
+            "SYSDATE", "SYSTIMESTAMP", "CURRENT_DATE", "CURRENT_TIMESTAMP",
+            "ADD_MONTHS", "MONTHS_BETWEEN", "LAST_DAY", "NEXT_DAY",
+            "EXTRACT", "COUNT", "SUM", "AVG", "MIN", "MAX",
+            "FIRST", "LAST", "LEAD", "LAG", "ROW_NUMBER", "RANK",
+            "DENSE_RANK", "ROWNUM", "ROWID", "SYS_GUID", "RAWTOHEX",
+            "HEXTORAW", "CAST", "CONVERT", "LISTAGG", "XMLAGG"
+        };
+
+        private static readonly HashSet<string> BuiltInPackages = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "DBMS_OUTPUT", "DBMS_SQL", "DBMS_METADATA", "DBMS_LOB",
+            "DBMS_UTILITY", "DBMS_RANDOM", "DBMS_SCHEDULER", "DBMS_JOB",
+            "DBMS_LOCK", "DBMS_SESSION", "DBMS_FLASHBACK", "DBMS_CRYPTO",
+            "UTL_FILE", "UTL_HTTP", "UTL_SMTP", "UTL_RAW", "UTL_ENCODE",
+            "SYS", "STANDARD", "DUAL"
+        };
+
         private static bool IsSqlKeyword(string word)
         {
-            var keywords = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-            {
-                "SELECT", "INSERT", "UPDATE", "DELETE", "FROM", "WHERE", "AND", "OR",
-                "INTO", "VALUES", "SET", "JOIN", "LEFT", "RIGHT", "INNER", "OUTER",
-                "ON", "AS", "IN", "NOT", "NULL", "IS", "LIKE", "BETWEEN", "EXISTS",
-                "HAVING", "GROUP", "BY", "ORDER", "ASC", "DESC", "LIMIT", "OFFSET",
-                "UNION", "ALL", "DISTINCT", "TOP", "CASE", "WHEN", "THEN", "ELSE",
-                "END", "IF", "BEGIN", "DECLARE", "CURSOR", "OPEN", "CLOSE", "FETCH",
-                "DUAL", "TABLE", "VIEW", "INDEX", "CREATE", "DROP", "ALTER", "TRUNCATE"
-            };
-            return keywords.Contains(word);
+            return SqlKeywords.Contains(word);
         }
 
         private static bool IsBuiltInFunction(string name)
         {
-            var builtIns = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-            {
-                "NVL", "NVL2", "DECODE", "COALESCE", "NULLIF", "CASE",
-                "TO_CHAR", "TO_DATE", "TO_NUMBER", "TO_TIMESTAMP",
-                "UPPER", "LOWER", "INITCAP", "TRIM", "LTRIM", "RTRIM",
-                "SUBSTR", "INSTR", "LENGTH", "REPLACE", "TRANSLATE",
-                "ROUND", "TRUNC", "ABS", "CEIL", "FLOOR", "MOD", "POWER",
-                "SQRT", "SIGN", "SIN", "COS", "TAN", "LOG", "EXP",
-                "SYSDATE", "SYSTIMESTAMP", "CURRENT_DATE", "CURRENT_TIMESTAMP",
-                "ADD_MONTHS", "MONTHS_BETWEEN", "LAST_DAY", "NEXT_DAY",
-                "EXTRACT", "COUNT", "SUM", "AVG", "MIN", "MAX",
-                "FIRST", "LAST", "LEAD", "LAG", "ROW_NUMBER", "RANK",
-                "DENSE_RANK", "ROWNUM", "ROWID", "SYS_GUID", "RAWTOHEX",
-                "HEXTORAW", "CAST", "CONVERT", "LISTAGG", "XMLAGG"
-            };
-            return builtIns.Contains(name);
+            return BuiltInFunctions.Contains(name);
         }
 
         private static bool IsBuiltInPackage(string name)
         {
-            var builtIns = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-            {
-                "DBMS_OUTPUT", "DBMS_SQL", "DBMS_METADATA", "DBMS_LOB",
-                "DBMS_UTILITY", "DBMS_RANDOM", "DBMS_SCHEDULER", "DBMS_JOB",
-                "DBMS_LOCK", "DBMS_SESSION", "DBMS_FLASHBACK", "DBMS_CRYPTO",
-                "UTL_FILE", "UTL_HTTP", "UTL_SMTP", "UTL_RAW", "UTL_ENCODE",
-                "SYS", "STANDARD", "DUAL"
-            };
-            return builtIns.Contains(name);
+            return BuiltInPackages.Contains(name);
         }
     }
 }

@@ -187,8 +187,9 @@ namespace DatabaseSchemaViewer.Controls
         public string SearchText { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance
+        /// Initializes a new instance of the <see cref="SearchChangedEventArgs"/> class
         /// </summary>
+        /// <param name="searchText">The search text</param>
         public SearchChangedEventArgs(string searchText)
         {
             SearchText = searchText;

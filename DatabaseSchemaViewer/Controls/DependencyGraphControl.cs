@@ -13,6 +13,9 @@ namespace DatabaseSchemaViewer.Controls
     /// </summary>
     public class DependencyGraphControl : UserControl
     {
+        private static readonly DatabaseEntityType[] AllEntityTypes = 
+            (DatabaseEntityType[])Enum.GetValues(typeof(DatabaseEntityType));
+
         private DependencyGraph _graph;
         private readonly Dictionary<DatabaseEntity, PointF> _nodePositions;
         private readonly Dictionary<DatabaseEntity, SizeF> _nodeSizes;
@@ -37,7 +40,7 @@ namespace DatabaseSchemaViewer.Controls
         {
             _nodePositions = new Dictionary<DatabaseEntity, PointF>();
             _nodeSizes = new Dictionary<DatabaseEntity, SizeF>();
-            _visibleTypes = new HashSet<DatabaseEntityType>(Enum.GetValues(typeof(DatabaseEntityType)).Cast<DatabaseEntityType>());
+            _visibleTypes = new HashSet<DatabaseEntityType>(AllEntityTypes);
             _zoom = 1.0f;
             _offset = PointF.Empty;
             _searchFilter = string.Empty;
