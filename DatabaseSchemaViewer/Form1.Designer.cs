@@ -33,12 +33,15 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.txtTableStartsWith = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.openSchema = new System.Windows.Forms.ToolStripButton();
             this.saveSchema = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonRelationships = new System.Windows.Forms.ToolStripButton();
             this.tsbQuote = new System.Windows.Forms.ToolStripButton();
             this.label3 = new System.Windows.Forms.Label();
             this.SchemaOwner = new System.Windows.Forms.TextBox();
@@ -53,8 +56,6 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.treeContext = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtTableStartsWith = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -66,12 +67,11 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 367);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 432);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(625, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(627, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -105,14 +105,31 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.progressBar1);
             this.splitContainer1.Panel2.Controls.Add(this.treeView1);
-            this.splitContainer1.Size = new System.Drawing.Size(625, 367);
-            this.splitContainer1.SplitterDistance = 140;
-            this.splitContainer1.SplitterWidth = 4;
+            this.splitContainer1.Size = new System.Drawing.Size(627, 432);
+            this.splitContainer1.SplitterDistance = 154;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // txtTableStartsWith
+            // 
+            this.txtTableStartsWith.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTableStartsWith.Location = new System.Drawing.Point(93, 123);
+            this.txtTableStartsWith.Name = "txtTableStartsWith";
+            this.txtTableStartsWith.Size = new System.Drawing.Size(262, 20);
+            this.txtTableStartsWith.TabIndex = 9;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 126);
+            this.label4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(89, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Table Starts With";
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openSchema,
             this.saveSchema,
@@ -123,8 +140,8 @@
             this.tsbQuote});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(625, 25);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
+            this.toolStrip1.Size = new System.Drawing.Size(627, 25);
             this.toolStrip1.TabIndex = 7;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -180,11 +197,10 @@
             // 
             // toolStripButtonRelationships
             // 
-            this.toolStripButtonRelationships = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonRelationships.Enabled = false;
             this.toolStripButtonRelationships.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonRelationships.Name = "toolStripButtonRelationships";
-            this.toolStripButtonRelationships.Size = new System.Drawing.Size(82, 22);
+            this.toolStripButtonRelationships.Size = new System.Drawing.Size(81, 22);
             this.toolStripButtonRelationships.Text = "Relationships";
             this.toolStripButtonRelationships.ToolTipText = "Analyze table relationships";
             this.toolStripButtonRelationships.Click += new System.EventHandler(this.RelationshipsClick);
@@ -225,7 +241,7 @@
             // ReadSchema
             // 
             this.ReadSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReadSchema.Location = new System.Drawing.Point(455, 32);
+            this.ReadSchema.Location = new System.Drawing.Point(457, 32);
             this.ReadSchema.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.ReadSchema.Name = "ReadSchema";
             this.ReadSchema.Size = new System.Drawing.Size(158, 102);
@@ -243,13 +259,12 @@
             this.ConnectionString.Location = new System.Drawing.Point(3, 74);
             this.ConnectionString.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.ConnectionString.Name = "ConnectionString";
-            this.ConnectionString.Size = new System.Drawing.Size(435, 20);
+            this.ConnectionString.Size = new System.Drawing.Size(437, 20);
             this.ConnectionString.TabIndex = 3;
             this.ConnectionString.Text = global::DatabaseSchemaViewer.Properties.Settings.Default.ConnectionString;
             // 
             // connectionContext
             // 
-            this.connectionContext.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.connectionContext.Name = "contextMenuStrip1";
             this.connectionContext.Size = new System.Drawing.Size(61, 4);
             // 
@@ -291,7 +306,7 @@
             this.progressBar1.Location = new System.Drawing.Point(16, 18);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(570, 23);
+            this.progressBar1.Size = new System.Drawing.Size(572, 23);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 5;
             this.progressBar1.Visible = false;
@@ -302,7 +317,7 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(625, 223);
+            this.treeView1.Size = new System.Drawing.Size(627, 274);
             this.treeView1.TabIndex = 0;
             this.treeView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TreeMouseUp);
             // 
@@ -317,34 +332,14 @@
             // 
             // treeContext
             // 
-            this.treeContext.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.treeContext.Name = "treeContext";
             this.treeContext.Size = new System.Drawing.Size(61, 4);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 126);
-            this.label4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Table Starts With";
-            // 
-            // txtTableStartsWith
-            // 
-            this.txtTableStartsWith.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTableStartsWith.Location = new System.Drawing.Point(93, 123);
-            this.txtTableStartsWith.Name = "txtTableStartsWith";
-            this.txtTableStartsWith.Size = new System.Drawing.Size(260, 20);
-            this.txtTableStartsWith.TabIndex = 9;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(625, 389);
+            this.ClientSize = new System.Drawing.Size(627, 454);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
