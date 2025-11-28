@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
 using DatabaseSchemaReader.DataSchema;
 using DatabaseSchemaReader.Procedures;
 using DatabaseSchemaViewer.Controls;
+using System;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace DatabaseSchemaViewer
 {
