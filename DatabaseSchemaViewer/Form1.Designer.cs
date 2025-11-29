@@ -45,6 +45,7 @@ namespace DatabaseSchemaViewer
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.tsbQuote = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.label3 = new System.Windows.Forms.Label();
             this.SchemaOwner = new System.Windows.Forms.TextBox();
             this.ReadSchema = new System.Windows.Forms.Button();
@@ -58,7 +59,6 @@ namespace DatabaseSchemaViewer
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.treeContext = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -72,9 +72,9 @@ namespace DatabaseSchemaViewer
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 432);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 191);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(627, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(620, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -108,23 +108,23 @@ namespace DatabaseSchemaViewer
             // 
             this.splitContainer1.Panel2.Controls.Add(this.progressBar1);
             this.splitContainer1.Panel2.Controls.Add(this.treeView1);
-            this.splitContainer1.Size = new System.Drawing.Size(627, 432);
-            this.splitContainer1.SplitterDistance = 154;
+            this.splitContainer1.Size = new System.Drawing.Size(620, 191);
+            this.splitContainer1.SplitterDistance = 129;
             this.splitContainer1.TabIndex = 1;
             // 
             // txtTableStartsWith
             // 
             this.txtTableStartsWith.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTableStartsWith.Location = new System.Drawing.Point(93, 123);
+            this.txtTableStartsWith.Location = new System.Drawing.Point(299, 101);
             this.txtTableStartsWith.Name = "txtTableStartsWith";
-            this.txtTableStartsWith.Size = new System.Drawing.Size(262, 20);
+            this.txtTableStartsWith.Size = new System.Drawing.Size(134, 20);
             this.txtTableStartsWith.TabIndex = 9;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 126);
+            this.label4.Location = new System.Drawing.Point(209, 104);
             this.label4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 13);
@@ -145,7 +145,7 @@ namespace DatabaseSchemaViewer
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(627, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(620, 25);
             this.toolStrip1.TabIndex = 7;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -221,6 +221,15 @@ namespace DatabaseSchemaViewer
             this.toolStripButton3.Text = "Relationships";
             this.toolStripButton3.Click += new System.EventHandler(this.RelationshipsClick);
             // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(128, 22);
+            this.toolStripButton4.Text = "DependencyViewer";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -244,10 +253,10 @@ namespace DatabaseSchemaViewer
             // ReadSchema
             // 
             this.ReadSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReadSchema.Location = new System.Drawing.Point(457, 32);
+            this.ReadSchema.Location = new System.Drawing.Point(444, 73);
             this.ReadSchema.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.ReadSchema.Name = "ReadSchema";
-            this.ReadSchema.Size = new System.Drawing.Size(158, 102);
+            this.ReadSchema.Size = new System.Drawing.Size(158, 46);
             this.ReadSchema.TabIndex = 6;
             this.ReadSchema.Text = "Read Schema";
             this.ReadSchema.UseVisualStyleBackColor = true;
@@ -262,7 +271,7 @@ namespace DatabaseSchemaViewer
             this.ConnectionString.Location = new System.Drawing.Point(3, 74);
             this.ConnectionString.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.ConnectionString.Name = "ConnectionString";
-            this.ConnectionString.Size = new System.Drawing.Size(437, 20);
+            this.ConnectionString.Size = new System.Drawing.Size(430, 20);
             this.ConnectionString.TabIndex = 3;
             this.ConnectionString.Text = global::DatabaseSchemaViewer.Properties.Settings.Default.ConnectionString;
             // 
@@ -309,7 +318,7 @@ namespace DatabaseSchemaViewer
             this.progressBar1.Location = new System.Drawing.Point(16, 18);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(572, 23);
+            this.progressBar1.Size = new System.Drawing.Size(586, 23);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 5;
             this.progressBar1.Visible = false;
@@ -320,7 +329,7 @@ namespace DatabaseSchemaViewer
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(627, 274);
+            this.treeView1.Size = new System.Drawing.Size(620, 58);
             this.treeView1.TabIndex = 0;
             this.treeView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TreeMouseUp);
             // 
@@ -338,20 +347,11 @@ namespace DatabaseSchemaViewer
             this.treeContext.Name = "treeContext";
             this.treeContext.Size = new System.Drawing.Size(61, 4);
             // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(128, 22);
-            this.toolStripButton4.Text = "DependencyViewer";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 454);
+            this.ClientSize = new System.Drawing.Size(620, 213);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
