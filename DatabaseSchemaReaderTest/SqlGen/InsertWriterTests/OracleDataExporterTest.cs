@@ -109,12 +109,12 @@ namespace DatabaseSchemaReaderTest.SqlGen.InsertWriterTests
             var sql = exporter.BuildSelectLastRecordsSql(ordersTable);
 
             // Assert
-            Assert.IsTrue(sql.Contains("ORDER BY \"ORDER_ID\" DESC"), "Should have ORDER BY with DESC for last records");
-            Assert.IsTrue(sql.Contains("ROWNUM <= 1000"), "Should limit to 1000 records");
-            Assert.IsTrue(sql.Contains("ORDER BY \"ORDER_ID\" ASC"), "Should restore original order");
-            Assert.IsTrue(sql.Contains("\"ORDER_ID\""), "Should include ORDER_ID column");
-            Assert.IsTrue(sql.Contains("\"PRODUCT_ID\""), "Should include PRODUCT_ID column");
-            Assert.IsTrue(sql.Contains("\"ORDER_DATE\""), "Should include ORDER_DATE column");
+            Assert.IsTrue(sql.Contains("ORDER BY \"ORDER_ID\" DESC"), "Should have ORDER BY with DESC for last records: " + sql);
+            Assert.IsTrue(sql.Contains("ROWNUM <= 1000"), "Should limit to 1000 records: " + sql);
+            Assert.IsTrue(sql.Contains("ORDER BY \"ORDER_ID\" ASC"), "Should restore original order: " + sql);
+            Assert.IsTrue(sql.Contains("\"ORDER_ID\""), "Should include ORDER_ID column: " + sql);
+            Assert.IsTrue(sql.Contains("\"PRODUCT_ID\""), "Should include PRODUCT_ID column: " + sql);
+            Assert.IsTrue(sql.Contains("\"ORDER_DATE\""), "Should include ORDER_DATE column: " + sql);
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace DatabaseSchemaReaderTest.SqlGen.InsertWriterTests
             var sql = exporter.BuildSelectLastRecordsSql(categoriesTable);
 
             // Assert
-            Assert.IsTrue(sql.Contains("ROWNUM <= 500"), "Should limit to 500 records");
+            Assert.IsTrue(sql.Contains("ROWNUM <= 500"), "Should limit to 500 records: " + sql);
         }
 
         [TestMethod]

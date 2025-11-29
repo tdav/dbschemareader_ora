@@ -180,7 +180,7 @@ namespace DatabaseSchemaReader.Data
             }
 
             // Check minimum records requirement
-            if (recordCount < MinRecords && recordCount == 0)
+            if (recordCount == 0)
             {
                 // Table is empty, nothing to export
                 return string.Empty;
