@@ -399,6 +399,7 @@
     <Compile Include="Procedures\ProcedureDependencyAnalyzerTests.cs" />
     <Compile Include="Procedures\OraclePackageAnalyzerTests.cs" />
     <Compile Include="Procedures\TableRelationshipAnalyzerTest.cs" />
+    <Compile Include="Procedures\CombinedDependencyAnalyzerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IntegrationTests\SqlServerIssueOfNullFKReferenceTests.cs" />
     <Compile Include="ProviderSchemaReaders\SqlAzureOrSqlServerSchemaReaderTests.cs" />

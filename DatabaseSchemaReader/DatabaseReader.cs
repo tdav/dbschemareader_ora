@@ -572,6 +572,51 @@ namespace DatabaseSchemaReader
             DatabaseSchema.Entities = graph.Nodes;
             return graph;
         }
+
+        /// <summary>
+        /// Creates a combined dependency analyzer for comprehensive dependency analysis
+        /// </summary>
+        /// <returns>Combined dependency analyzer</returns>
+        /// <remarks>
+        /// Call ReadDependencies() and ReadAll() before using this method to ensure
+        /// dependencies and procedure source code are loaded.
+        /// </remarks>
+        public CombinedDependencyAnalyzer CreateDependencyAnalyzer()
+        {
+            var dependencies = ReadDependencies();
+            
+            // Build dictionary of procedure sources
+            var sources = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            
+            foreach (var proc in DatabaseSchema.StoredProcedures)
+            {
+                if (!string.IsNullOrEmpty(proc.Sql))
+                {
+                    var key = string.Format("{0}.{1}", proc.SchemaOwner, proc.Name);
+                    sources[key] = proc.Sql;
+                }
+            }
+            
+            foreach (var func in DatabaseSchema.Functions)
+            {
+                if (!string.IsNullOrEmpty(func.Sql))
+                {
+                    var key = string.Format("{0}.{1}", func.SchemaOwner, func.Name);
+                    sources[key] = func.Sql;
+                }
+            }
+            
+            foreach (var pack in DatabaseSchema.Packages)
+            {
+                if (!string.IsNullOrEmpty(pack.Body))
+                {
+                    var key = string.Format("{0}.{1}", pack.SchemaOwner, pack.Name);
+                    sources[key] = pack.Body;
+                }
+            }
+            
+            return new CombinedDependencyAnalyzer(dependencies, sources);
+        }
 #endif
 
         private void UpdateReferences()
