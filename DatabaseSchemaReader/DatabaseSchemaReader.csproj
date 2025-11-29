@@ -5,7 +5,7 @@
     <AssemblyTitle>DatabaseSchemaReader</AssemblyTitle>
     <VersionPrefix>2.18.0</VersionPrefix>
     <Authors>Martin Willey</Authors>
-    <TargetFrameworks>netstandard2.0;netstandard1.5;net45;net40;net35</TargetFrameworks>
+    <TargetFrameworks>net10.0;netstandard2.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>DatabaseSchemaReader</AssemblyName>
     <PackageId>DatabaseSchemaReader</PackageId>
@@ -44,8 +44,6 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/martinjw/dbschemareader</RepositoryUrl>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.5' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.5' ">1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -58,61 +56,20 @@
     <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
-    <PackageReference Include="System.Console" Version="4.3.1" />
-    <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
-    <DefineConstants>TRACE;DEBUG;NET35</DefineConstants>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' Or '$(TargetFramework)' == 'net45' ">
-    <DefineConstants>TRACE;DEBUG;NET4</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
-    <DefineConstants>TRACE;DEBUG;COREFX;NETSTANDARD2_0;NETSTANDARD1_5;</DefineConstants>
-  </PropertyGroup>
-
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <DefineConstants>TRACE;DEBUG;COREFX;NETSTANDARD2_0;</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
-    <Compile Remove="DbSchemaReader\**\*.cs;ProviderSchemaReaders\DbProviders\**\*.cs;Conversion\**\*.cs;Data\**\*.cs;Procedures\**\*.cs;Utilities\DbProvider\**\*.cs" />
-  </ItemGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
+    <DefineConstants>TRACE;DEBUG;COREFX;NET10;NETSTANDARD2_0;</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <Compile Remove="DbSchemaReader\**\*.cs;ProviderSchemaReaders\DbProviders\**\*.cs;Conversion\**\*.cs;Utilities\DbProvider\**\*.cs" />
   </ItemGroup>
-  
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net35' ">
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System" />
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
+    <Compile Remove="DbSchemaReader\**\*.cs;ProviderSchemaReaders\DbProviders\**\*.cs;Conversion\**\*.cs;Utilities\DbProvider\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -124,13 +81,6 @@
 	<None Include="README.md" Pack="true" PackagePath="">
         <Link>README.md</Link>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
 </Project>
