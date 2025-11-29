@@ -78,17 +78,11 @@ namespace DatabaseSchemaReader.Procedures
             // Remove comments before analysis
             var cleanedCode = RemoveComments(sourceCode);
 
-            // Extract SELECT tables (FROM and JOIN)
+            // Extract tables from FROM clauses
             var fromPattern = new Regex(
-                @"\bSELECT\b.*?\bFROM\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            ExtractMatchesToList(cleanedCode, fromPattern, result.ReadTables);
-
-            // Also extract tables from standalone FROM clauses (outside SELECT context)
-            var simpleFromPattern = new Regex(
                 @"\bFROM\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
                 RegexOptions.IgnoreCase);
-            ExtractMatchesToList(cleanedCode, simpleFromPattern, result.ReadTables);
+            ExtractMatchesToList(cleanedCode, fromPattern, result.ReadTables);
 
             // Extract JOIN tables
             var joinPattern = new Regex(
@@ -119,6 +113,9 @@ namespace DatabaseSchemaReader.Procedures
                 @"\bMERGE\s+INTO\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
                 RegexOptions.IgnoreCase);
             ExtractMatchesToList(cleanedCode, mergePattern, result.MergeTables);
+
+            // Extract package calls
+            result.PackageCalls.AddRange(ExtractPackageCalls(cleanedCode));
 
             // Check for dynamic SQL
             result.ContainsDynamicSql = ContainsDynamicSql(sourceCode);
@@ -258,16 +255,17 @@ namespace DatabaseSchemaReader.Procedures
             if (string.IsNullOrEmpty(sourceCode))
                 return new List<string>();
 
-            // Pattern for package.procedure/function calls
+            // Pattern for package.procedure/function calls - must be followed by ( for method call
+            // Use negative lookbehind to avoid matching after FROM, JOIN, INTO, UPDATE, etc.
             var packagePattern = new Regex(
-                @"\b([a-zA-Z_][\w$#]*)\.([a-zA-Z_][\w$#]*)\s*(?:\(|;)",
+                @"(?<!\b(?:FROM|JOIN|INTO|UPDATE|DELETE|MERGE|TABLE)\s+)(?<!\b(?:FROM|JOIN|INTO|UPDATE|DELETE|MERGE|TABLE)\s+\w+\s*,\s*)\b([a-zA-Z_][\w$#]*)\.([a-zA-Z_][\w$#]*)\s*\(",
                 RegexOptions.IgnoreCase);
 
             var matches = packagePattern.Matches(sourceCode);
             foreach (Match match in matches)
             {
                 var packageName = match.Groups[1].Value;
-                if (!IsBuiltInPackage(packageName) && !IsSqlKeyword(packageName))
+                if (!IsBuiltInPackage(packageName) && !IsSqlKeyword(packageName) && !IsSchemaName(packageName))
                 {
                     packages.Add(packageName);
                 }
@@ -326,6 +324,13 @@ namespace DatabaseSchemaReader.Procedures
             "SYS", "STANDARD", "DUAL"
         };
 
+        // Common Oracle schema names that should not be considered packages
+        private static readonly HashSet<string> CommonSchemaNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "HR", "SCOTT", "SH", "OE", "PM", "IX", "BI", "SYSTEM", "SYSAUX",
+            "DBA", "ALL", "USER", "V$", "GV$", "PUBLIC", "APEX", "ORDS"
+        };
+
         private static bool IsSqlKeyword(string word)
         {
             return SqlKeywords.Contains(word);
@@ -339,6 +344,11 @@ namespace DatabaseSchemaReader.Procedures
         private static bool IsBuiltInPackage(string name)
         {
             return BuiltInPackages.Contains(name);
+        }
+
+        private static bool IsSchemaName(string name)
+        {
+            return CommonSchemaNames.Contains(name);
         }
     }
 }

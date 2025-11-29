@@ -110,10 +110,8 @@ namespace DatabaseSchemaReader.Procedures
                     });
                 }
 
-                // Add package calls
-                var packageCalls = _sourceCodeAnalyzer.ExtractPackageCalls(sourceCode);
-                result.SourceCodeAnalysis.PackageCalls.AddRange(packageCalls);
-                foreach (var package in packageCalls)
+                // Add package calls from the already-analyzed source code
+                foreach (var package in result.SourceCodeAnalysis.PackageCalls)
                 {
                     result.SourceCodeDependencies.Add(new DependencyInfo
                     {
