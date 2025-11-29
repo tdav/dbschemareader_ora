@@ -432,15 +432,19 @@ namespace DatabaseSchemaReader.Procedures
                    ObjectType == other.ObjectType;
         }
 
+        // Hash code calculation constants (prime numbers for better distribution)
+        private const int HashCodeSeed = 17;
+        private const int HashCodeMultiplier = 23;
+
         /// <inheritdoc/>
         public override int GetHashCode()
         {
             unchecked
             {
-                int hash = 17;
-                hash = hash * 23 + (SchemaOwner?.ToUpperInvariant().GetHashCode() ?? 0);
-                hash = hash * 23 + (ObjectName?.ToUpperInvariant().GetHashCode() ?? 0);
-                hash = hash * 23 + ObjectType.GetHashCode();
+                int hash = HashCodeSeed;
+                hash = hash * HashCodeMultiplier + (SchemaOwner?.ToUpperInvariant().GetHashCode() ?? 0);
+                hash = hash * HashCodeMultiplier + (ObjectName?.ToUpperInvariant().GetHashCode() ?? 0);
+                hash = hash * HashCodeMultiplier + ObjectType.GetHashCode();
                 return hash;
             }
         }

@@ -352,7 +352,10 @@ namespace DatabaseSchemaReader.Procedures
 
         private static string GetKey(string owner, string name)
         {
-            return string.Format("{0}.{1}", owner ?? "", name ?? "");
+            // Handle null/empty cases to ensure consistent key format
+            var ownerPart = string.IsNullOrEmpty(owner) ? string.Empty : owner;
+            var namePart = string.IsNullOrEmpty(name) ? string.Empty : name;
+            return string.Format("{0}.{1}", ownerPart, namePart);
         }
     }
 }

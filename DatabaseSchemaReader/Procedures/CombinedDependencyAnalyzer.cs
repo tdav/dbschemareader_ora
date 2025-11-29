@@ -125,11 +125,12 @@ namespace DatabaseSchemaReader.Procedures
 
                 // Find new dependencies (in source code but not in catalog)
                 var catalogSet = new HashSet<string>(
-                    result.CatalogDependencies.Select(d => d.FullName.ToUpperInvariant()));
+                    result.CatalogDependencies.Select(d => d.FullName),
+                    StringComparer.OrdinalIgnoreCase);
 
                 foreach (var dep in result.SourceCodeDependencies)
                 {
-                    if (!catalogSet.Contains(dep.FullName.ToUpperInvariant()))
+                    if (!catalogSet.Contains(dep.FullName))
                     {
                         result.NewDependenciesFromSourceCode.Add(new DependencyInfo
                         {

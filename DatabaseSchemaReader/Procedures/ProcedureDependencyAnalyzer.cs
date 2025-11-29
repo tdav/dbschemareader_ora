@@ -256,22 +256,33 @@ namespace DatabaseSchemaReader.Procedures
                 return new List<string>();
 
             // Pattern for package.procedure/function calls - must be followed by ( for method call
-            // Use negative lookbehind to avoid matching after FROM, JOIN, INTO, UPDATE, etc.
+            // Pattern: word.word( - captures package name and method name
             var packagePattern = new Regex(
-                @"(?<!\b(?:FROM|JOIN|INTO|UPDATE|DELETE|MERGE|TABLE)\s+)(?<!\b(?:FROM|JOIN|INTO|UPDATE|DELETE|MERGE|TABLE)\s+\w+\s*,\s*)\b([a-zA-Z_][\w$#]*)\.([a-zA-Z_][\w$#]*)\s*\(",
+                @"\b([a-zA-Z_][\w$#]*)\.([a-zA-Z_][\w$#]*)\s*\(",
                 RegexOptions.IgnoreCase);
 
             var matches = packagePattern.Matches(sourceCode);
             foreach (Match match in matches)
             {
                 var packageName = match.Groups[1].Value;
-                if (!IsBuiltInPackage(packageName) && !IsSqlKeyword(packageName) && !IsSchemaName(packageName))
+                if (IsValidPackageName(packageName))
                 {
                     packages.Add(packageName);
                 }
             }
 
             return new List<string>(packages);
+        }
+
+        /// <summary>
+        /// Checks if a name is a valid package name (not a built-in, keyword, or schema)
+        /// </summary>
+        private static bool IsValidPackageName(string name)
+        {
+            return !string.IsNullOrEmpty(name) && 
+                   !IsBuiltInPackage(name) && 
+                   !IsSqlKeyword(name) && 
+                   !IsSchemaName(name);
         }
 
         private void ExtractMatches(string sourceCode, Regex pattern, HashSet<string> results)
