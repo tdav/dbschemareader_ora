@@ -28,6 +28,7 @@ local.properties
 # PDT-specific
 .buildpath
 
+db20251128T060920.xml
 
 #################
 ## Visual Studio
@@ -132,6 +133,7 @@ publish/
 # NuGet Packages Directory
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
 packages/
+.nuget/
 
 # Windows Azure Build Output
 csx
@@ -225,3 +227,4 @@ CodeGenTester/packages/
 DatabaseSchemaReader.sln.GhostDoc.xml
 !DatabaseSchemaReaderTest/northwind.sdf
 /nuget
+.nuget/nuget.exe

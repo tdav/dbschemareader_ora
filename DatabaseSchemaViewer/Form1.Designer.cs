@@ -1,4 +1,6 @@
-﻿namespace DatabaseSchemaViewer
+﻿using System;
+
+namespace DatabaseSchemaViewer
 {
     partial class Form1
     {
@@ -33,14 +35,16 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.txtTableStartsWith = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.openSchema = new System.Windows.Forms.ToolStripButton();
             this.saveSchema = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonDependencies = new System.Windows.Forms.ToolStripButton();
             this.tsbQuote = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.label3 = new System.Windows.Forms.Label();
             this.SchemaOwner = new System.Windows.Forms.TextBox();
             this.ReadSchema = new System.Windows.Forms.Button();
@@ -54,8 +58,7 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.treeContext = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtTableStartsWith = new System.Windows.Forms.TextBox();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -67,12 +70,11 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 367);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 432);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(625, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(627, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -106,26 +108,44 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.progressBar1);
             this.splitContainer1.Panel2.Controls.Add(this.treeView1);
-            this.splitContainer1.Size = new System.Drawing.Size(625, 367);
-            this.splitContainer1.SplitterDistance = 140;
-            this.splitContainer1.SplitterWidth = 4;
+            this.splitContainer1.Size = new System.Drawing.Size(627, 432);
+            this.splitContainer1.SplitterDistance = 154;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // txtTableStartsWith
+            // 
+            this.txtTableStartsWith.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTableStartsWith.Location = new System.Drawing.Point(93, 123);
+            this.txtTableStartsWith.Name = "txtTableStartsWith";
+            this.txtTableStartsWith.Size = new System.Drawing.Size(262, 20);
+            this.txtTableStartsWith.TabIndex = 9;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 126);
+            this.label4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(89, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Table Starts With";
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openSchema,
             this.saveSchema,
             this.toolStripSeparator1,
             this.toolStripButton1,
             this.toolStripButton2,
-            this.toolStripButtonDependencies,
-            this.tsbQuote});
+            this.tsbQuote,
+            this.toolStripButton3,
+            this.toolStripButton4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(625, 25);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
+            this.toolStrip1.Size = new System.Drawing.Size(627, 25);
             this.toolStrip1.TabIndex = 7;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -179,16 +199,6 @@
             this.toolStripButton2.ToolTipText = "Compare to another database";
             this.toolStripButton2.Click += new System.EventHandler(this.CompareClick);
             // 
-            // toolStripButtonDependencies
-            // 
-            this.toolStripButtonDependencies.Enabled = false;
-            this.toolStripButtonDependencies.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonDependencies.Name = "toolStripButtonDependencies";
-            this.toolStripButtonDependencies.Size = new System.Drawing.Size(86, 22);
-            this.toolStripButtonDependencies.Text = "Dependencies";
-            this.toolStripButtonDependencies.ToolTipText = "Analyze entity dependencies";
-            this.toolStripButtonDependencies.Click += new System.EventHandler(this.DependencyAnalysisClick);
-            // 
             // tsbQuote
             // 
             this.tsbQuote.Checked = true;
@@ -201,6 +211,15 @@
             this.tsbQuote.Size = new System.Drawing.Size(87, 22);
             this.tsbQuote.Text = "Escape Names";
             this.tsbQuote.Click += new System.EventHandler(this.tsbQuote_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(97, 22);
+            this.toolStripButton3.Text = "Relationships";
+            this.toolStripButton3.Click += new System.EventHandler(this.RelationshipsClick);
             // 
             // label3
             // 
@@ -225,7 +244,7 @@
             // ReadSchema
             // 
             this.ReadSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReadSchema.Location = new System.Drawing.Point(455, 32);
+            this.ReadSchema.Location = new System.Drawing.Point(457, 32);
             this.ReadSchema.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.ReadSchema.Name = "ReadSchema";
             this.ReadSchema.Size = new System.Drawing.Size(158, 102);
@@ -243,13 +262,12 @@
             this.ConnectionString.Location = new System.Drawing.Point(3, 74);
             this.ConnectionString.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.ConnectionString.Name = "ConnectionString";
-            this.ConnectionString.Size = new System.Drawing.Size(435, 20);
+            this.ConnectionString.Size = new System.Drawing.Size(437, 20);
             this.ConnectionString.TabIndex = 3;
             this.ConnectionString.Text = global::DatabaseSchemaViewer.Properties.Settings.Default.ConnectionString;
             // 
             // connectionContext
             // 
-            this.connectionContext.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.connectionContext.Name = "contextMenuStrip1";
             this.connectionContext.Size = new System.Drawing.Size(61, 4);
             // 
@@ -291,7 +309,7 @@
             this.progressBar1.Location = new System.Drawing.Point(16, 18);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(570, 23);
+            this.progressBar1.Size = new System.Drawing.Size(572, 23);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 5;
             this.progressBar1.Visible = false;
@@ -302,7 +320,7 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(625, 223);
+            this.treeView1.Size = new System.Drawing.Size(627, 274);
             this.treeView1.TabIndex = 0;
             this.treeView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TreeMouseUp);
             // 
@@ -317,34 +335,23 @@
             // 
             // treeContext
             // 
-            this.treeContext.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.treeContext.Name = "treeContext";
             this.treeContext.Size = new System.Drawing.Size(61, 4);
             // 
-            // label4
+            // toolStripButton4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 126);
-            this.label4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Table Starts With";
-            // 
-            // txtTableStartsWith
-            // 
-            this.txtTableStartsWith.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTableStartsWith.Location = new System.Drawing.Point(93, 123);
-            this.txtTableStartsWith.Name = "txtTableStartsWith";
-            this.txtTableStartsWith.Size = new System.Drawing.Size(260, 20);
-            this.txtTableStartsWith.TabIndex = 9;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(128, 22);
+            this.toolStripButton4.Text = "DependencyViewer";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(625, 389);
+            this.ClientSize = new System.Drawing.Size(627, 454);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
@@ -367,6 +374,7 @@
 
         }
 
+     
         #endregion
 
         private System.Windows.Forms.StatusStrip statusStrip1;
@@ -386,7 +394,6 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButtonDependencies;
         private System.Windows.Forms.ContextMenuStrip connectionContext;
         private System.Windows.Forms.ContextMenuStrip treeContext;
         private System.Windows.Forms.ToolStripButton openSchema;
@@ -395,6 +402,8 @@
         private System.Windows.Forms.ToolStripButton tsbQuote;
         private System.Windows.Forms.TextBox txtTableStartsWith;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
     }
 }
 

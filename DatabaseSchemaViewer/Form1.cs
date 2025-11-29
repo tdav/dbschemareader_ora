@@ -257,13 +257,23 @@ namespace DatabaseSchemaViewer
                 {
                     SchemaToTreeview.PopulateTreeView(_databaseSchema, treeView1);
                     toolStripButton1.Enabled = true;
-                    toolStripButton2.Enabled = true;
-                    toolStripButtonDependencies.Enabled = true;
+                    toolStripButton2.Enabled = true; 
                     saveSchema.Enabled = true;
                 }
             }
             StopWaiting();
         }
+
+        private void RelationshipsClick(object sender, EventArgs e)
+        {
+            if (_databaseSchema == null) return;
+
+            using (var f = new TableRelationshipForm(_databaseSchema))
+            {
+                f.ShowDialog();
+            }
+        }
+
 
         private void CodeGenClick(object sender, EventArgs e)
         {
@@ -282,16 +292,6 @@ namespace DatabaseSchemaViewer
             using (var f = new CompareForm(_databaseSchema))
             {
                 f.TableStartsWith = txtTableStartsWith.Text.Trim();
-                f.ShowDialog();
-            }
-        }
-
-        private void DependencyAnalysisClick(object sender, EventArgs e)
-        {
-            if (_databaseSchema == null) return;
-
-            using (var f = new DependencyViewerForm(_databaseSchema))
-            {
                 f.ShowDialog();
             }
         }
@@ -570,7 +570,6 @@ namespace DatabaseSchemaViewer
                         SchemaToTreeview.PopulateTreeView(_databaseSchema, treeView1);
                         toolStripButton1.Enabled = true;
                         toolStripButton2.Enabled = true;
-                        toolStripButtonDependencies.Enabled = true;
                         saveSchema.Enabled = true;
                     }
                 }
@@ -580,6 +579,16 @@ namespace DatabaseSchemaViewer
         private void tsbQuote_Click(object sender, EventArgs e)
         {
             tsbQuote.ForeColor = tsbQuote.Checked ? SystemColors.ControlText : SystemColors.InactiveCaption;
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            if (_databaseSchema == null) return;
+
+            using (var f = new DependencyViewerForm(_databaseSchema))
+            {
+                f.ShowDialog();
+            }            
         }
     }
 }

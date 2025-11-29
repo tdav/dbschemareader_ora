@@ -23,8 +23,8 @@ namespace DatabaseSchemaReader.ProviderSchemaReaders.Databases.Oracle
         INDEX_NAME,
         replace(sys_dburigen(INDEX_OWNER, INDEX_NAME, TABLE_OWNER, TABLE_NAME, COLUMN_POSITION, COLUMN_EXPRESSION, 'text()').getclob(), '""', '') as func_real_name
     from ALL_IND_EXPRESSIONS
-    where TABLE_NAME = :TABLENAME OR :TABLENAME IS NULL
-        AND TABLE_OWNER = :TABLEOWNER OR :TABLEOWNER IS NULL
+    where (TABLE_NAME = :TABLENAME OR :TABLENAME IS NULL)
+        AND (TABLE_OWNER = :TABLEOWNER OR :TABLEOWNER IS NULL)
 )
 SELECT
     cols.INDEX_OWNER,
@@ -34,7 +34,8 @@ SELECT
     COLUMN_NAME,
     COLUMN_POSITION,
     DESCEND, --normally ASC
-    DECODE(UNIQUENESS,'UNIQUE',1,0) IsUnique
+    DECODE(UNIQUENESS,'UNIQUE',1,0) IsUnique,
+    ix.INDEX_TYPE
 FROM ALL_IND_COLUMNS cols
          INNER JOIN ALL_INDEXES ix
                     ON ix.OWNER = cols.INDEX_OWNER AND ix.INDEX_NAME = cols.INDEX_NAME
@@ -53,7 +54,8 @@ SELECT
     CAST(fi.func_real_name AS VARCHAR2(4000)) as COLUMN_NAME,
     cols.COLUMN_POSITION,
     DESCEND,
-    DECODE(UNIQUENESS,'UNIQUE',1,0) IsUnique
+    DECODE(UNIQUENESS,'UNIQUE',1,0) IsUnique,
+    ix.INDEX_TYPE
 FROM ALL_IND_COLUMNS cols
          INNER JOIN ALL_INDEXES ix
                     ON ix.OWNER = cols.INDEX_OWNER AND ix.INDEX_NAME = cols.INDEX_NAME
@@ -86,13 +88,14 @@ ORDER BY TABLE_OWNER,
             var index = Result.FirstOrDefault(f => f.Name == name && f.SchemaOwner == schema && f.TableName.Equals(tableName, StringComparison.OrdinalIgnoreCase));
             if (index == null)
             {
+                var indexType = record.GetString("INDEX_TYPE");
                 index = new DatabaseIndex
                 {
                     SchemaOwner = schema,
                     TableName = tableName,
                     Name = name,
                     IsUnique = record.GetBoolean("IsUnique"),
-                    IndexType = record.GetString("INDEX_TYPE")
+                    IndexType = indexType
                 };
                 Result.Add(index);
             }
