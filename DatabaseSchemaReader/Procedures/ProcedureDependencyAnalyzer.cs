@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace DatabaseSchemaReader.Procedures
@@ -19,6 +20,9 @@ namespace DatabaseSchemaReader.Procedures
             var tables = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             if (string.IsNullOrEmpty(sourceCode))
                 return new List<string>();
+
+            // Remove comments before analysis
+            var cleanedCode = RemoveComments(sourceCode);
 
             // Pattern for FROM clause
             var fromPattern = new Regex(
@@ -45,13 +49,139 @@ namespace DatabaseSchemaReader.Procedures
                 @"\bJOIN\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
                 RegexOptions.IgnoreCase);
 
-            ExtractMatches(sourceCode, fromPattern, tables);
-            ExtractMatches(sourceCode, insertPattern, tables);
-            ExtractMatches(sourceCode, updatePattern, tables);
-            ExtractMatches(sourceCode, deletePattern, tables);
-            ExtractMatches(sourceCode, joinPattern, tables);
+            // Pattern for MERGE INTO
+            var mergePattern = new Regex(
+                @"\bMERGE\s+INTO\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
+                RegexOptions.IgnoreCase);
+
+            ExtractMatches(cleanedCode, fromPattern, tables);
+            ExtractMatches(cleanedCode, insertPattern, tables);
+            ExtractMatches(cleanedCode, updatePattern, tables);
+            ExtractMatches(cleanedCode, deletePattern, tables);
+            ExtractMatches(cleanedCode, joinPattern, tables);
+            ExtractMatches(cleanedCode, mergePattern, tables);
 
             return new List<string>(tables);
+        }
+
+        /// <summary>
+        /// Analyzes source code and returns categorized dependencies
+        /// </summary>
+        /// <param name="sourceCode">The PL/SQL source code</param>
+        /// <returns>Categorized dependencies</returns>
+        public SourceCodeDependencyResult AnalyzeSourceCode(string sourceCode)
+        {
+            var result = new SourceCodeDependencyResult();
+            if (string.IsNullOrEmpty(sourceCode))
+                return result;
+
+            // Remove comments before analysis
+            var cleanedCode = RemoveComments(sourceCode);
+
+            // Extract SELECT tables (FROM and JOIN)
+            var fromPattern = new Regex(
+                @"\bSELECT\b.*?\bFROM\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
+                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            ExtractMatchesToList(cleanedCode, fromPattern, result.ReadTables);
+
+            // Also extract tables from standalone FROM clauses (outside SELECT context)
+            var simpleFromPattern = new Regex(
+                @"\bFROM\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
+                RegexOptions.IgnoreCase);
+            ExtractMatchesToList(cleanedCode, simpleFromPattern, result.ReadTables);
+
+            // Extract JOIN tables
+            var joinPattern = new Regex(
+                @"\bJOIN\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
+                RegexOptions.IgnoreCase);
+            ExtractMatchesToList(cleanedCode, joinPattern, result.ReadTables);
+
+            // Extract INSERT tables
+            var insertPattern = new Regex(
+                @"\bINSERT\s+INTO\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
+                RegexOptions.IgnoreCase);
+            ExtractMatchesToList(cleanedCode, insertPattern, result.InsertTables);
+
+            // Extract UPDATE tables
+            var updatePattern = new Regex(
+                @"\bUPDATE\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
+                RegexOptions.IgnoreCase);
+            ExtractMatchesToList(cleanedCode, updatePattern, result.UpdateTables);
+
+            // Extract DELETE tables
+            var deletePattern = new Regex(
+                @"\bDELETE\s+(?:FROM\s+)?([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
+                RegexOptions.IgnoreCase);
+            ExtractMatchesToList(cleanedCode, deletePattern, result.DeleteTables);
+
+            // Extract MERGE tables
+            var mergePattern = new Regex(
+                @"\bMERGE\s+INTO\s+([a-zA-Z_][\w$#]*(?:\.[a-zA-Z_][\w$#]*)?)",
+                RegexOptions.IgnoreCase);
+            ExtractMatchesToList(cleanedCode, mergePattern, result.MergeTables);
+
+            // Check for dynamic SQL
+            result.ContainsDynamicSql = ContainsDynamicSql(sourceCode);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Checks if source code contains dynamic SQL
+        /// </summary>
+        /// <param name="sourceCode">The PL/SQL source code</param>
+        /// <returns>True if dynamic SQL is found</returns>
+        public bool ContainsDynamicSql(string sourceCode)
+        {
+            if (string.IsNullOrEmpty(sourceCode))
+                return false;
+
+            // Pattern for EXECUTE IMMEDIATE
+            var executeImmediatePattern = new Regex(
+                @"\bEXECUTE\s+IMMEDIATE\b",
+                RegexOptions.IgnoreCase);
+
+            // Pattern for DBMS_SQL
+            var dbmsSqlPattern = new Regex(
+                @"\bDBMS_SQL\.",
+                RegexOptions.IgnoreCase);
+
+            return executeImmediatePattern.IsMatch(sourceCode) || 
+                   dbmsSqlPattern.IsMatch(sourceCode);
+        }
+
+        /// <summary>
+        /// Removes comments from PL/SQL source code
+        /// </summary>
+        /// <param name="sourceCode">The source code</param>
+        /// <returns>Source code without comments</returns>
+        private string RemoveComments(string sourceCode)
+        {
+            if (string.IsNullOrEmpty(sourceCode))
+                return sourceCode;
+
+            // Remove single-line comments (-- ...)
+            var singleLinePattern = new Regex(@"--.*$", RegexOptions.Multiline);
+            var result = singleLinePattern.Replace(sourceCode, string.Empty);
+
+            // Remove multi-line comments (/* ... */)
+            var multiLinePattern = new Regex(@"/\*.*?\*/", RegexOptions.Singleline);
+            result = multiLinePattern.Replace(result, string.Empty);
+
+            return result;
+        }
+
+        private void ExtractMatchesToList(string sourceCode, Regex pattern, List<string> tables)
+        {
+            var matches = pattern.Matches(sourceCode);
+            foreach (Match match in matches)
+            {
+                var name = match.Groups[1].Value;
+                if (!IsSqlKeyword(name) && !string.IsNullOrEmpty(name) && !tables.Contains(name))
+                {
+                    tables.Add(name);
+                }
+            }
         }
 
         /// <summary>
@@ -167,7 +297,8 @@ namespace DatabaseSchemaReader.Procedures
             "HAVING", "GROUP", "BY", "ORDER", "ASC", "DESC", "LIMIT", "OFFSET",
             "UNION", "ALL", "DISTINCT", "TOP", "CASE", "WHEN", "THEN", "ELSE",
             "END", "IF", "BEGIN", "DECLARE", "CURSOR", "OPEN", "CLOSE", "FETCH",
-            "DUAL", "TABLE", "VIEW", "INDEX", "CREATE", "DROP", "ALTER", "TRUNCATE"
+            "DUAL", "TABLE", "VIEW", "INDEX", "CREATE", "DROP", "ALTER", "TRUNCATE",
+            "MERGE", "USING", "MATCHED"
         };
 
         private static readonly HashSet<string> BuiltInFunctions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
