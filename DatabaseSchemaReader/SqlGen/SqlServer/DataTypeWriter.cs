@@ -11,7 +11,7 @@ namespace DatabaseSchemaReader.SqlGen.SqlServer
     /// <remarks>
     /// <see cref="DatabaseSchemaReader.SqlGen.SqlServerCe.DataTypeWriter"/> is derived from this for SqlServerCe
     /// </remarks>
-    class DataTypeWriter : IDataTypeWriter
+    public class DataTypeWriter : IDataTypeWriter
     {
         public DataTypeWriter()
             : this(null)

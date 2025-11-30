@@ -7,7 +7,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.CodeGen
 {
-    class DataAnnotationWriter
+    public class DataAnnotationWriter
     {
         private readonly bool _isNet4;
         private readonly CodeWriterSettings _codeWriterSettings;

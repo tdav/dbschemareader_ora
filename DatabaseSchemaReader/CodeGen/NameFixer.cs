@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.CodeDom.Compiler;
 
 namespace DatabaseSchemaReader.CodeGen
 {
@@ -11,9 +12,9 @@ namespace DatabaseSchemaReader.CodeGen
     /// </summary>
     public static class NameFixer
     {
-#if !COREFX
-        private static readonly System.CodeDom.Compiler.CodeDomProvider CSharpProvider = System.CodeDom.Compiler.CodeDomProvider.CreateProvider("C#");
-#endif
+
+        private static readonly CodeDomProvider CSharpProvider = CodeDomProvider.CreateProvider("C#");
+
         /// <summary>
         /// Fixes the specified name to be pascal cased and (crudely) singular.
         /// </summary>

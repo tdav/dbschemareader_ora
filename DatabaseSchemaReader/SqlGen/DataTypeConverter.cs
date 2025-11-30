@@ -7,7 +7,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.SqlGen
 {
-    static class DataTypeConverter
+    public static class DataTypeConverter
     {
         public static bool IsVariableString(string dataType)
         {

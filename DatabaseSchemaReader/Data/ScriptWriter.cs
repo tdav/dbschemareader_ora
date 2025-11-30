@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Common;
 using DatabaseSchemaReader.DataSchema;
+using System.Data;
 
 namespace DatabaseSchemaReader.Data
 {
@@ -80,11 +81,9 @@ namespace DatabaseSchemaReader.Data
         /// <returns></returns>
         public string ReadTable(DatabaseTable databaseTable, DbConnection connection)
         {
-#if NETSTANDARD2_0
+ 
             var r = new Reader(databaseTable);
-#else
-            var r = new Reader(databaseTable, connection.ConnectionString, connection.GetType().Namespace);
-#endif
+ 
             r.PageSize = PageSize;
             var dt = r.Read(connection);
             var w = new InsertWriter(databaseTable, dt);
@@ -105,11 +104,9 @@ namespace DatabaseSchemaReader.Data
                               Func<string, bool> processRecord)
         {
             var providerName = connection.GetType().Namespace;
-#if NETSTANDARD2_0
+ 
             var r = new Reader(databaseTable);
-#else
-            var r = new Reader(databaseTable, connection.ConnectionString, providerName);
-#endif
+ 
             var w = new InsertWriter(databaseTable, FindSqlType(providerName));
             r.Read(connection, record =>
                        {
@@ -117,65 +114,28 @@ namespace DatabaseSchemaReader.Data
                            return processRecord(s);
                        });
 
-        }
-        //#else
-#if !NETSTANDARD2_0
-            /// <summary>
-            /// Reads the table data and returns the INSERT statements
-            /// </summary>
-            /// <param name="databaseTable">The database table.</param>
-            /// <param name="connectionString">The connection string.</param>
-            /// <param name="providerName">Name of the provider.</param>
-            /// <returns></returns>
-        public string ReadTable(DatabaseTable databaseTable, string connectionString, string providerName)
-        {
-            var r = new Reader(databaseTable, connectionString, providerName);
-            r.PageSize = PageSize;
-            var dt = r.Read();
-            var w = new InsertWriter(databaseTable, dt);
-            w.IncludeIdentity = IncludeIdentity;
-            w.IncludeBlobs = IncludeBlobs;
-            w.EscapeNames = EscapeNames;
-            return w.Write(FindSqlType(providerName));
-        }
-
-        /// <summary>
-        /// Reads the table schema and data and returns the INSERT statements
-        /// </summary>
-        /// <param name="tableName">Name of the table.</param>
-        /// <param name="connectionString">The connection string.</param>
-        /// <param name="providerName">Name of the provider.</param>
-        /// <returns></returns>
+        } 
+ 
         public string ReadTable(string tableName, string connectionString, string providerName)
         {
-            using (var dr = new DatabaseReader(connectionString, providerName))
-            {
-                var databaseTable = dr.Table(tableName);
-                if (databaseTable == null) return null;
-                return ReadTable(databaseTable, connectionString, providerName);
-            }
+            var factory = DbProviderFactories.GetFactory(providerName);
+            using var connection = factory.CreateConnection();
+            connection.ConnectionString = connectionString;
+            return ReadTable(tableName, connection);
         }
-
-        /// <summary>
-        /// Reads the table data and invokes the function for each INSERT statement. The databaseTable must have dataTypes (call DataReader.DataTypes()).
-        /// </summary>
-        /// <param name="databaseTable">The database table.</param>
-        /// <param name="connectionString">The connection string.</param>
-        /// <param name="providerName">Name of the provider.</param>
-        /// <param name="processRecord">The process record.</param>
-        public void ReadTable(DatabaseTable databaseTable, string connectionString, string providerName,
-                              Func<string, bool> processRecord)
+        public string ReadTable(DatabaseTable databaseTable, string connectionString, string providerName)
         {
-            var r = new Reader(databaseTable, connectionString, providerName);
-            var w = new InsertWriter(databaseTable, FindSqlType(providerName));
-            r.Read(record =>
-                       {
-                           var s = w.WriteInsert(record);
-                           return processRecord(s);
-                       });
-
+            var factory = DbProviderFactories.GetFactory(providerName);
+            using var connection = factory.CreateConnection();
+            connection.ConnectionString = connectionString;
+            return ReadTable(databaseTable, connection);
         }
-#endif
-
+        public void ReadTable(DatabaseTable databaseTable, string connectionString, string providerName, Func<string,bool> processRecord)
+        {
+            var factory = DbProviderFactories.GetFactory(providerName);
+            using var connection = factory.CreateConnection();
+            connection.ConnectionString = connectionString;
+            ReadTable(databaseTable, connection, processRecord);
+        }
     }
 }

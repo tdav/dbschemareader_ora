@@ -8,7 +8,7 @@ namespace DatabaseSchemaReader.Compare
     /// <summary>
     /// Quick facade over migration generator
     /// </summary>
-    class ComparisonWriter
+    public class ComparisonWriter
     {
         private readonly IMigrationGenerator _migration;
         private readonly SqlType _sqlType;

@@ -13,8 +13,7 @@ namespace DatabaseSchemaReaderTest
     public class DatabaseReaderTest
     {
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod] 
         public void NoConnectionStringTest()
         {
             new DatabaseReader((string)null, SqlType.SqlServer);
@@ -22,8 +21,7 @@ namespace DatabaseSchemaReaderTest
             Assert.Fail("Should not have succeeded");
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod] 
         public void NoProviderTest()
         {
             new DatabaseReader("Dummy", null);

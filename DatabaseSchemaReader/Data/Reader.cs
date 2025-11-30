@@ -23,26 +23,6 @@ namespace DatabaseSchemaReader.Data
         /// Initializes a new instance of the <see cref="Reader"/> class.
         /// </summary>
         /// <param name="databaseTable">The database table.</param>
-        /// <param name="connectionString">The connection string.</param>
-        /// <param name="providerName">Name of the provider.</param>
-        public Reader(DatabaseTable databaseTable, string connectionString, string providerName)
-        {
-            if (databaseTable == null)
-                throw new ArgumentNullException("databaseTable");
-            if (connectionString == null)
-                throw new ArgumentNullException("connectionString");
-            if (providerName == null)
-                throw new ArgumentNullException("providerName");
-            _providerName = providerName;
-            _connectionString = connectionString;
-            _databaseTable = databaseTable;
-        }
-
-#if NETSTANDARD2_0
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Reader"/> class.
-        /// </summary>
-        /// <param name="databaseTable">The database table.</param>
         public Reader(DatabaseTable databaseTable)
         {
             //This constructor is only used in NetStandard.
@@ -52,40 +32,20 @@ namespace DatabaseSchemaReader.Data
             _databaseTable = databaseTable;
         }
 
-#else
         /// <summary>
-        /// Reads first x rows of data from the table into a DataTable.
+        /// Initializes a new instance of the <see cref="Reader"/> class.
         /// </summary>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security",
-                "CA2100:Review SQL queries for security vulnerabilities", Justification = "We're generating the select SQL")
-        ]
-        public DataTable Read()
+        /// <param name="databaseTable">The database table.</param>
+        /// <param name="connectionString">The connection string.</param>
+        /// <param name="providerName">Name of the provider.</param>
+        public Reader(DatabaseTable databaseTable, string connectionString, string providerName)
         {
-            var sqlType = FindSqlType(_providerName);
-            var originSql = new SqlWriter(_databaseTable, sqlType);
-            var selectAll = originSql.SelectPageSql();
-
-            var dt = new DataTable(_databaseTable.Name) { Locale = CultureInfo.InvariantCulture };
-
-            var dbFactory = DbProviderFactories.GetFactory(_providerName);
-            using (var con = dbFactory.CreateConnection())
-            {
-                con.ConnectionString = _connectionString;
-                using (var cmd = con.CreateCommand())
-                {
-                    BuildCommand(cmd, selectAll, sqlType);
-
-                    using (var da = dbFactory.CreateDataAdapter())
-                    {
-                        da.SelectCommand = cmd;
-                        da.Fill(dt);
-                    }
-                }
-            }
-            return dt;
+            if (databaseTable == null) throw new ArgumentNullException(nameof(databaseTable));
+            _databaseTable = databaseTable;
+            _connectionString = connectionString;
+            _providerName = providerName;
         }
-#endif
+
         /// <summary>
         /// Reads first x rows of data from the table into a DataTable.
         /// </summary>
@@ -102,11 +62,9 @@ namespace DatabaseSchemaReader.Data
             var providerName = _providerName;
             if (string.IsNullOrEmpty(providerName)) providerName = connection.GetType().Namespace;
             var sqlType = FindSqlType(providerName);
-#if NETSTANDARD2_0
+
             var dbFactory = FactoryFinder.FindFactory(connection);
-#else
-            var dbFactory = DbProviderFactories.GetFactory(providerName);
-#endif
+
             var originSql = new SqlWriter(_databaseTable, sqlType);
             var selectAll = originSql.SelectPageSql();
 
@@ -233,6 +191,18 @@ namespace DatabaseSchemaReader.Data
                 if (value > 10000) throw new InvalidOperationException("Value is too large - consider another method");
                 _pageSize = value;
             }
+        }
+
+        /// <summary>
+        /// Reads data from the table into a DataTable using the connection string and provider name specified in the constructor.
+        /// </summary>
+        /// <returns></returns>
+        public DataTable Read()
+        {
+            var factory = DbProviderFactories.GetFactory(_providerName);
+            using var connection = factory.CreateConnection();
+            connection.ConnectionString = _connectionString;
+            return Read(connection);
         }
     }
 }

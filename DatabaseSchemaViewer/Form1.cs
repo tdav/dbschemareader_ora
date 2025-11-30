@@ -257,7 +257,7 @@ namespace DatabaseSchemaViewer
                 {
                     SchemaToTreeview.PopulateTreeView(_databaseSchema, treeView1);
                     toolStripButton1.Enabled = true;
-                    toolStripButton2.Enabled = true; 
+                    toolStripButton2.Enabled = true;
                     saveSchema.Enabled = true;
                 }
             }
@@ -524,8 +524,7 @@ namespace DatabaseSchemaViewer
                     DateTime.Now.ToString("yyyyMMddThhmmss", CultureInfo.InvariantCulture);
                 picker.DefaultExt = ".xml";
                 picker.Title = "Save schema to file.";
-                picker.InitialDirectory =
-                            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                picker.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 var result = picker.ShowDialog();
                 if (result == DialogResult.OK)
                 {
@@ -588,7 +587,7 @@ namespace DatabaseSchemaViewer
             using (var f = new DependencyViewerForm(_databaseSchema))
             {
                 f.ShowDialog();
-            }            
+            }
         }
     }
 }

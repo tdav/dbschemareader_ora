@@ -1,9 +1,6 @@
 ﻿namespace DatabaseSchemaReader.CodeGen
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    enum ProjectVersion
+    public enum ProjectVersion
     {
         /// <summary>
         /// VS2008 / .net 3.5

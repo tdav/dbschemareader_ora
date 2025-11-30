@@ -6,7 +6,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.CodeGen.NHibernate
 {
-    class FluentMappingWriter
+    public class FluentMappingWriter
     {
         private readonly DatabaseTable _table;
         private readonly CodeWriterSettings _codeWriterSettings;

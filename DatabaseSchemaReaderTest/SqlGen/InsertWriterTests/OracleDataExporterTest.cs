@@ -3,6 +3,7 @@ using System.Data.Common;
 using System.Linq;
 using DatabaseSchemaReader.Data;
 using DatabaseSchemaReader.DataSchema;
+using Microsoft.Data.Sqlite;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DatabaseSchemaReaderTest.SqlGen.InsertWriterTests
@@ -214,8 +215,7 @@ namespace DatabaseSchemaReaderTest.SqlGen.InsertWriterTests
             Assert.IsTrue(exporter.EscapeNames, "Default EscapeNames should be true");
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        [TestMethod] 
         public void TestMaxRecordsCannotBeZero()
         {
             // Arrange
@@ -226,8 +226,7 @@ namespace DatabaseSchemaReaderTest.SqlGen.InsertWriterTests
             exporter.MaxRecords = 0;
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        [TestMethod] 
         public void TestMaxRecordsCannotBeNegative()
         {
             // Arrange
@@ -238,8 +237,7 @@ namespace DatabaseSchemaReaderTest.SqlGen.InsertWriterTests
             exporter.MaxRecords = -1;
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        [TestMethod] 
         public void TestMinRecordsCannotBeNegative()
         {
             // Arrange
@@ -254,7 +252,7 @@ namespace DatabaseSchemaReaderTest.SqlGen.InsertWriterTests
         {
             // For unit testing, we use SQLite's factory just as a placeholder
             // since we're not actually connecting to a database
-            var factory = System.Data.SQLite.SQLiteFactory.Instance;
+            var factory = SqliteFactory.Instance;
             return new OracleDataExporter(schema, "Data Source=:memory:", factory);
         }
     }

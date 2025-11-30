@@ -4,7 +4,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.CodeGen.CodeFirst
 {
-    class CodeFirstContextWriter
+    public class CodeFirstContextWriter
     {
         private readonly CodeWriterSettings _codeWriterSettings;
         private readonly ClassBuilder _cb;

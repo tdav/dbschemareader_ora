@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Windows.Forms;
 using DatabaseSchemaReader.DataSchema;
+using System.Drawing.Drawing2D;
+using System.ComponentModel;
 
 namespace DatabaseSchemaViewer.Controls
 {
@@ -13,8 +9,7 @@ namespace DatabaseSchemaViewer.Controls
     /// </summary>
     public class DependencyGraphControl : UserControl
     {
-        private static readonly DatabaseEntityType[] AllEntityTypes = 
-            (DatabaseEntityType[])Enum.GetValues(typeof(DatabaseEntityType));
+        private static readonly DatabaseEntityType[] AllEntityTypes = (DatabaseEntityType[])Enum.GetValues(typeof(DatabaseEntityType));
 
         private DependencyGraph _graph;
         private readonly Dictionary<DatabaseEntity, PointF> _nodePositions;
@@ -59,6 +54,7 @@ namespace DatabaseSchemaViewer.Controls
         /// <summary>
         /// Gets or sets the dependency graph
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DependencyGraph Graph
         {
             get { return _graph; }
@@ -73,6 +69,7 @@ namespace DatabaseSchemaViewer.Controls
         /// <summary>
         /// Gets or sets the selected entity
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DatabaseEntity SelectedEntity
         {
             get { return _selectedEntity; }

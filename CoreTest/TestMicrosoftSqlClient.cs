@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DatabaseSchemaReader.Procedures;
+using DatabaseSchemaReader.Data;
 
 namespace CoreTest
 {
@@ -100,7 +101,7 @@ namespace CoreTest
                 dr.CommandTimeout = 60;
                 var table = dr.Table("Categories");
 
-                var reader = new DatabaseSchemaReader.Data.Reader(table);
+                var reader = new Reader(table);
                 var dt = reader.Read(connection);
                 Assert.IsTrue(dt.Rows.Count > 0);
             }
@@ -116,7 +117,7 @@ namespace CoreTest
                 dr.CommandTimeout = 60;
                 var table = dr.Table("Categories");
 
-                var reader = new DatabaseSchemaReader.Data.Reader(table);
+                var reader = new Reader(table);
 
                 var names = new List<string>();
 

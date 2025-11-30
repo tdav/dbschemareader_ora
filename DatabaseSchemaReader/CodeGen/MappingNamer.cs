@@ -2,7 +2,7 @@
 
 namespace DatabaseSchemaReader.CodeGen
 {
-    class MappingNamer
+    public class MappingNamer
     {
         public MappingNamer()
         {

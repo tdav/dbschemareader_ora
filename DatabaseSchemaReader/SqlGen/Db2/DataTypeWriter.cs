@@ -3,7 +3,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.SqlGen.Db2
 {
-    class DataTypeWriter : IDataTypeWriter
+    public class DataTypeWriter : IDataTypeWriter
     {
         public string WriteDataType(DatabaseColumn column)
         {

@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace DatabaseSchemaReader.CodeGen
 {
-    class ProjectWriter
+    public class ProjectWriter
     {
         private readonly XNamespace _xmlns = "http://schemas.microsoft.com/developer/msbuild/2003";
         private readonly XDocument _document;

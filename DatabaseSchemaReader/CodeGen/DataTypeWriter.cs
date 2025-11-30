@@ -6,7 +6,7 @@ namespace DatabaseSchemaReader.CodeGen
     /// <summary>
     /// Converts column datatypes into string representations of .Net types
     /// </summary>
-    class DataTypeWriter
+    public class DataTypeWriter
     {
         /// <summary>
         /// Gets or sets the code target.

@@ -3,7 +3,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.SqlGen.PostgreSql
 {
-    class DataTypeWriter : IDataTypeWriter
+    public class DataTypeWriter : IDataTypeWriter
     {
         public string WriteDataType(DatabaseColumn column)
         {

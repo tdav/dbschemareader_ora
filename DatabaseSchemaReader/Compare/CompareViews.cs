@@ -5,7 +5,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.Compare
 {
-    class CompareViews
+    public class CompareViews
     {
         private readonly IList<CompareResult> _results;
         private readonly ComparisonWriter _writer;

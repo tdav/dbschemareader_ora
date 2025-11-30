@@ -1,13 +1,10 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data.Common;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows.Forms;
-using DatabaseSchemaReader;
+﻿using DatabaseSchemaReader;
 using DatabaseSchemaReader.DataSchema;
 using DatabaseSchemaReader.Filters;
+using System.ComponentModel;
+using System.Data.Common;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace DatabaseSchemaViewer
 {
@@ -24,6 +21,7 @@ namespace DatabaseSchemaViewer
             InitializeComponent();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string TableStartsWith { get; set; }
 
         private void CompareFormLoad(object sender, EventArgs e)
@@ -214,8 +212,7 @@ namespace DatabaseSchemaViewer
             {
                 picker.DefaultExt = ".dbschema";
                 picker.Title = "Open saved schema.";
-                picker.InitialDirectory =
-                            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                picker.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 var result = picker.ShowDialog();
                 if (result == DialogResult.OK)
                 {
@@ -223,18 +220,10 @@ namespace DatabaseSchemaViewer
                     UseSavedSchema.Visible = true;
                     UseSavedSchema.Checked = true;
                     StartWaiting();
-                    using (var stream = picker.OpenFile())
-                    {
-                        var f = new BinaryFormatter();
-                        try
-                        {
-                            _compareSchema = f.Deserialize(stream) as DatabaseSchema;
-                        }
-                        catch (SerializationException)
-                        {
-                            toolStripStatusLabel1.Text = "Invalid serialization format";
-                        }
-                    }
+
+                    var str = File.ReadAllText(picker.FileName);
+                    _compareSchema = Newtonsoft.Json.JsonConvert.DeserializeObject<DatabaseSchema>(str);
+
                     if (_compareSchema != null)
                     {
                         ConnectionString.Text = _databaseSchema.ConnectionString;

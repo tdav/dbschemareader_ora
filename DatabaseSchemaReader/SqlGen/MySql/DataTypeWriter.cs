@@ -3,7 +3,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.SqlGen.MySql
 {
-    class DataTypeWriter : IDataTypeWriter
+    public class DataTypeWriter : IDataTypeWriter
     {
         /// <summary>
         /// Gets the MySql datatype definition as string

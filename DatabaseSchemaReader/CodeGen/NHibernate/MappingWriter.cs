@@ -7,7 +7,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.CodeGen.NHibernate
 {
-    class MappingWriter
+    public class MappingWriter
     {
         private readonly XNamespace _xmlns = "urn:nhibernate-mapping-2.2";
         private readonly DatabaseTable _table;

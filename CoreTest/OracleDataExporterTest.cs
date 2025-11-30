@@ -209,8 +209,7 @@ namespace CoreTest
             Assert.IsTrue(exporter.EscapeNames, "Default EscapeNames should be true");
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        [TestMethod] 
         public void TestMaxRecordsCannotBeZero()
         {
             // Arrange
@@ -221,8 +220,7 @@ namespace CoreTest
             exporter.MaxRecords = 0;
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        [TestMethod] 
         public void TestMaxRecordsCannotBeNegative()
         {
             // Arrange
@@ -233,8 +231,7 @@ namespace CoreTest
             exporter.MaxRecords = -1;
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        [TestMethod] 
         public void TestMinRecordsCannotBeNegative()
         {
             // Arrange

@@ -7,7 +7,7 @@ namespace DatabaseSchemaReader.SqlGen.Oracle
     /// <summary>
     /// Returns a datatype string (will convert common Oracle types to SqlServer)
     /// </summary>
-    internal class DataTypeWriter : IDataTypeWriter
+    public class DataTypeWriter : IDataTypeWriter
     {
         private static readonly string[] OracleFunctions = { "current_timestamp", "current_date", "sysdate", "systimestamp" };
 

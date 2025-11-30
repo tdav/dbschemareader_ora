@@ -1,7 +1,6 @@
 ﻿using DatabaseSchemaReader;
 using DatabaseSchemaReader.DataSchema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using System.Data.SqlClient;
 
 namespace DatabaseSchemaReaderTest.IntegrationTests
 {
@@ -14,7 +13,7 @@ namespace DatabaseSchemaReaderTest.IntegrationTests
             var connectionString = ConnectionStrings.Northwind;
             DatabaseSchema schema;
             //using the newer Microsoft Sql client
-            using (var connection = new Microsoft.Data.SqlClient.SqlConnection(connectionString))
+            using (var connection = new  SqlConnection(connectionString))
             {
                 try
                 {

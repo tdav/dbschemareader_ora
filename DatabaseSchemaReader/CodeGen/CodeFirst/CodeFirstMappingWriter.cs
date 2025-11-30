@@ -6,7 +6,7 @@ using DatabaseSchemaReader.DataSchema;
 
 namespace DatabaseSchemaReader.CodeGen.CodeFirst
 {
-    class CodeFirstMappingWriter
+    public class CodeFirstMappingWriter
     {
         //http://msdn.microsoft.com/en-us/library/hh295844%28v=vs.103%29.aspx
 
