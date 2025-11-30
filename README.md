@@ -355,7 +355,7 @@ foreach (var table in schema.Tables)
 
 ```C#
 // In .net Core, create the connection with the connection string
-using (var connection = new SqlConnection("Data Source=.\\SQLEXPRESS;Integrated Security=true;Initial Catalog=Northwind"))
+using (var connection = new SqlConnection(@"Data Source=.\SQLEXPRESS;Integrated Security=true;Initial Catalog=Northwind"))
 {
     var dbReader = new DatabaseSchemaReader.DatabaseReader(connection);
     // Then load the schema

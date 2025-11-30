@@ -139,7 +139,7 @@ Supported databases include SqlServer, SqlServer Ce, Oracle (via Microsoft, ODP 
 
 ```c#
 // Create the connection with the connection string
-using (var connection = new SqlConnection("Data Source=.\\SQLEXPRESS;Integrated Security=true;Initial Catalog=Northwind"))
+using (var connection = new SqlConnection(@"Data Source=.\SQLEXPRESS;Integrated Security=true;Initial Catalog=Northwind"))
 {
     var dbReader = new DatabaseSchemaReader.DatabaseReader(connection);
     // Load the schema (this will take a little time on moderate to large database structures)
